@@ -23,13 +23,16 @@ public class UserService extends MainService<User> {
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
     private final CartService cartService;
+    private final ProductService productService;
+
 
     @Autowired
-    public UserService(UserRepository userRepository, OrderRepository orderRepository, CartService cartService) {
+    public UserService(UserRepository userRepository, ProductService productService, OrderRepository orderRepository, CartService cartService) {
         super();
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
         this.cartService = cartService;
+        this.productService=productService;
         this.repository = userRepository; // Assign repository from MainService
     }
 
@@ -75,6 +78,10 @@ public class UserService extends MainService<User> {
         cartService.deleteCartById(cart.getId());
     }
 
+    public void emptyCart(UUID userId){
+        cartService.deleteCartById(userId);
+    }
+
 
     public void removeOrderFromUser(UUID userId, UUID orderId) {
         User user = userRepository.getUserById(userId);
@@ -109,5 +116,27 @@ public class UserService extends MainService<User> {
 
         // Remove the user
         userRepository.deleteUserById(userId);
+    }
+
+    public void addProductToCart(UUID userId, UUID productId) {
+        User user = getUserById(userId);
+        if (user != null) {
+            Cart cart = cartService.getCartByUserId(userId);
+            Product product = productService.getProductById(productId); // Assuming you have a method to get the product by ID
+            if (product != null) {
+                cartService.addProductToCart(cart.getId(), product);
+            }
+        }
+    }
+
+    public void deleteProductFromCart(UUID userId, UUID productId) {
+        User user = getUserById(userId);
+        if (user != null) {
+            Cart cart = cartService.getCartByUserId(userId);
+            Product product = productService.getProductById(productId);
+            if (product != null) {
+                cartService.deleteProductFromCart(cart.getId(), product);
+            }
+        }
     }
 }

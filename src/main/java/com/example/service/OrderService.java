@@ -22,6 +22,11 @@ public class OrderService extends MainService<Order> {
         this.orderRepository = orderRepository;
     }
 
+    public void addOrder(Order order){
+        orderRepository.addOrder(order);
+    }
+
+
     @Override
     protected UUID getId(Order order) {
         return order.getId(); // Ensure `Order` class has a `getId()` method
@@ -34,15 +39,12 @@ public class OrderService extends MainService<Order> {
     }
 
     // **Get a specific order by ID**
-    public Optional<Order> getOrderById(UUID orderId) {
-        return getById(orderId); // Using `getById` from `MainService`
+    public Order getOrderById(UUID orderId) {
+        return getById(orderId).orElseThrow(() -> new IllegalArgumentException("Order with ID " + orderId + " not found."));
     }
 
     public void deleteOrderById(UUID orderId) throws IllegalArgumentException {
-        Optional<Order> order = getOrderById(orderId);
-        if (order.isEmpty()) {
-            throw new IllegalArgumentException("Order with ID " + orderId + " not found.");
-        }
-        delete(orderId); // Using `delete(UUID id)` from `MainService`
+        Order order = getOrderById(orderId);
+        delete(order.getId()); // Using `delete(UUID id)` from `MainService`
     }
 }
