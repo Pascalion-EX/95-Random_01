@@ -43,7 +43,11 @@ public class UserService extends MainService<User> {
 
     public User addUser(User user) {
         user.setId(UUID.randomUUID());
-        return userRepository.addUser(user);
+        User savedUser = userRepository.addUser(user);
+        Cart cart = new Cart(UUID.randomUUID(), savedUser.getId(), new ArrayList<>());
+        cartService.addCart(cart);
+
+        return savedUser;
     }
 
     public ArrayList<User> getUsers() {
