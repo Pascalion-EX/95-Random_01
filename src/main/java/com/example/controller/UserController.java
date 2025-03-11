@@ -33,7 +33,7 @@ public class UserController {
         return userService.getUsers();
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/user/{userId}")
     public User getUserById(@PathVariable UUID userId){
         return userService.getUserById(userId);
     }
@@ -46,7 +46,7 @@ public class UserController {
     @PostMapping("/{userId}/checkout")
     public String addOrderToUser(@PathVariable UUID userId) {
         userService.addOrderToUser(userId);
-        return "Order added to user";
+        return "Order added successfully";
     }
 
     @PostMapping("/{userId}/removeOrder")
@@ -67,7 +67,7 @@ public class UserController {
         return "Product added to cart";
     }
 
-    @PutMapping("/deleteProductFromCart")
+    @PutMapping("/user/deleteProductFromCart")
     public String deleteProductFromCart(@RequestParam UUID userId, @RequestParam UUID productId){
         userService.deleteProductFromCart(userId, productId);
         return "Product deleted from cart";
