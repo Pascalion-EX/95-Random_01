@@ -15,7 +15,7 @@ public class OrderRepository extends MainRepository<Order> {
 
     @Override
     protected String getDataPath() {
-        return "src/main/resources/orders.json";
+        return "src/main/java/com/example/data/Order.json";
     }
 
     @Override
@@ -30,7 +30,7 @@ public class OrderRepository extends MainRepository<Order> {
     }
 
 
-    public void addOrder(Order order) {
+    public synchronized void addOrder(Order order) {
         ArrayList<Order> orders = findAll();
         orders.add(order);
         saveAll(orders);

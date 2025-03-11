@@ -20,7 +20,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping("/")
+    @PostMapping("/product/{name}")
     public Product addProduct(@RequestBody Product product){
         return productService.addProduct(product);
     }
@@ -45,13 +45,13 @@ public class ProductController {
     @PutMapping("/applyDiscount")
     public String applyDiscount(@RequestParam double discount, @RequestBody ArrayList<UUID> productIds) {
         productService.applyDiscount(discount, productIds);
-        return "Discount applied to products";
+        return "Discount applied successfully";
     }
 
     @DeleteMapping("/delete/{productId}")
     public String deleteProductById(@PathVariable UUID productId){
         productService.deleteProductById(productId);
-        return "Product deleted";
+        return "Product deleted successfully";
     }
 
 

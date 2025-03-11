@@ -1,6 +1,9 @@
 package com.example.repository;
 
+import com.example.model.*;
+import com.example.model.Cart;
 import com.example.model.Order;
+import com.example.repository.CartRepository;
 import com.example.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
@@ -14,7 +17,10 @@ import java.util.UUID;
 @SuppressWarnings("rawtypes")
 public class UserRepository extends MainRepository<User> {
 
-    public UserRepository() {
+    private final CartRepository cartRepository;
+
+    public UserRepository(CartRepository cartRepository) {
+        this.cartRepository = cartRepository;
     }
 
     @Override
@@ -33,7 +39,7 @@ public class UserRepository extends MainRepository<User> {
 
     public User getUserById(UUID userId) {
         return findAll().stream()
-                .filter(user -> user.getId().equals(userId.toString()))
+                .filter(user -> userId.equals(user.getId())) // Direct comparison of UUIDs
                 .findFirst()
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
@@ -43,6 +49,9 @@ public class UserRepository extends MainRepository<User> {
         ArrayList<User> users = findAll();
         users.add(user);
         saveAll(users);
+        Cart cart = cartRepository.addCart(new Cart(user.getId()));
+
+
         return user;
     }
 

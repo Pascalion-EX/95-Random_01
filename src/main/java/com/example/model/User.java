@@ -1,12 +1,14 @@
 package com.example.model;
 
 import org.springframework.stereotype.Component;
+import com.example.model.Cart;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Component
 public class User {
+    Cart cart;
     private UUID id;
     private String name;
     private List<Order> orders = new ArrayList<>();
@@ -28,6 +30,8 @@ public class User {
         this.id = id;
         this.name = name;
         this.orders = orders;
+
+
     }
 
     // Getters and Setters

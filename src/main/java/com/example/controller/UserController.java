@@ -5,6 +5,7 @@ import com.example.model.Order;
 import com.example.model.User;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -24,8 +25,9 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public User addUser(@RequestBody User user){
-        return userService.addUser(user);
+    public ResponseEntity<String> addUser(@RequestBody User user) {
+        userService.addUser(user);
+        return ResponseEntity.ok("User added successfully");
     }
 
     @GetMapping("/")
@@ -46,7 +48,7 @@ public class UserController {
     @PostMapping("/{userId}/checkout")
     public String addOrderToUser(@PathVariable UUID userId) {
         userService.addOrderToUser(userId);
-        return "Order added to user";
+        return "Order added successfully";
     }
 
     @PostMapping("/{userId}/removeOrder")
@@ -67,7 +69,7 @@ public class UserController {
         return "Product added to cart";
     }
 
-    @PutMapping("/deleteProductFromCart")
+    @PutMapping("/user/deleteProductFromCart")
     public String deleteProductFromCart(@RequestParam UUID userId, @RequestParam UUID productId){
         userService.deleteProductFromCart(userId, productId);
         return "Product deleted from cart";
