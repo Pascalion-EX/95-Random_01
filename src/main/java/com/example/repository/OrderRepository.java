@@ -15,7 +15,7 @@ public class OrderRepository extends MainRepository<Order> {
 
     @Override
     protected String getDataPath() {
-        return "src/main/java/com/example/data/Order.json";
+        return "src/main/java/com/example/data/orders.json";
     }
 
     @Override

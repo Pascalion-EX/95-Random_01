@@ -2,6 +2,9 @@ package com.example.repository;
 
 import com.example.model.Cart;
 import com.example.model.Product;
+import java.util.List;
+import com.example.repository.CartRepository;
+import com.example.service.CartService;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -40,16 +43,27 @@ public class CartRepository extends MainRepository<Cart> {
                 .findFirst()
                 .orElse(null);
     }
-
     public Cart getCartByUserId(UUID userId) {
-        return findAll().stream()
-                .filter(cart -> cart.getUserId().equals(userId))
-                .findFirst()
-                .orElse(null);
+        List<Cart> carts = findAll();
+        // Iterate through the list to find the cart
+        for (Cart cart : carts) {
+            if (cart.getUserId().equals(userId)) {
+                return cart; // Return the existing cart if found
+            }
+        }
+
+        // If no cart is found, create a new one
+        Cart newCart = new Cart(userId);
+        carts.add(newCart);
+        save(newCart);// Note: This change might not persist if `carts` is a temporary list
+
+        return newCart;
+
     }
 
+
     public void addProductToCart(UUID cartId, Product product) {
-        ArrayList<Cart> carts = findAll();
+        ArrayList<Cart> carts = getCarts();
         for (Cart cart : carts) {
             if (cart.getId().equals(cartId)) {
                 cart.getProducts().add(product);

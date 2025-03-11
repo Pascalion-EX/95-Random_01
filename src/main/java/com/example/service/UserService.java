@@ -42,7 +42,6 @@ public class UserService extends MainService<User> {
     }
 
     public User addUser(User user) {
-        user.setId(UUID.randomUUID());
         User savedUser = userRepository.addUser(user);
         Cart cart = new Cart(UUID.randomUUID(), savedUser.getId(), new ArrayList<>());
         cartService.addCart(cart);
@@ -106,10 +105,6 @@ public class UserService extends MainService<User> {
     public void deleteUserById(UUID userId) {
         User user = userRepository.getUserById(userId);
 
-        if (user == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        }
-
         // Remove all associated orders
         for (Order order : user.getOrders()) {
             orderRepository.deleteOrderById(order.getId());
@@ -123,14 +118,12 @@ public class UserService extends MainService<User> {
     }
 
     public void addProductToCart(UUID userId, UUID productId) {
-        User user = getUserById(userId);
-        if (user != null) {
-            Cart cart = cartService.getCartByUserId(userId);
+
+            Cart cart = cartService.addCart(cartService.getCartByUserId(userId));
             Product product = productService.getProductById(productId); // Assuming you have a method to get the product by ID
-            if (product != null) {
-                cartService.addProductToCart(cart.getId(), product);
-            }
-        }
+            cartService.addProductToCart(cartService.getId(cart), product);
+
+
     }
 
     public void deleteProductFromCart(UUID userId, UUID productId) {

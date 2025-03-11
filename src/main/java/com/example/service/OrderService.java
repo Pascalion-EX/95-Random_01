@@ -44,7 +44,6 @@ public class OrderService extends MainService<Order> {
     }
 
     public void deleteOrderById(UUID orderId) throws IllegalArgumentException {
-        Order order = getOrderById(orderId);
-        delete(order.getId()); // Using `delete(UUID id)` from `MainService`
+        delete(orderId); // Using `delete(UUID id)` from `MainService`
     }
 }
