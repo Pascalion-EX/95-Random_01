@@ -11,15 +11,13 @@ public class Product {
 
     // Default Constructor
     public Product() {
-        this.id = UUID.randomUUID();
     }
-
-    // Constructor with name and price
-    public Product(String name, double price) {
-        this.id = UUID.randomUUID();
-        this.name = name;
-        this.price = price;
-    }
+//Constructor with name and price
+//    public Product(String name, double price) {
+//        this.id = UUID.randomUUID();
+//        this.name = name;
+//        this.price = price;
+//    }
 
     // Constructor with all fields
     public Product(UUID id, String name, double price) {

@@ -27,7 +27,6 @@ public class ProductService extends MainService<Product> {
     }
 
     public Product addProduct(Product product) {
-        product.setId(UUID.randomUUID());
         productRepository.addProduct(product);
         return product;
     }

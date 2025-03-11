@@ -25,7 +25,7 @@ public class UserRepository extends MainRepository<User> {
 
     @Override
     protected String getDataPath() {
-        return "src/main/java/com/example/data/users.json"; // Path to users.json
+        return "src/main/java/com/example/data/users.json";
     }
 
     @Override
@@ -45,7 +45,6 @@ public class UserRepository extends MainRepository<User> {
     }
 
     public User addUser(User user) {
-        user.setId(UUID.randomUUID());
         ArrayList<User> users = findAll();
         users.add(user);
         saveAll(users);

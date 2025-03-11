@@ -11,7 +11,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/order")
 public class OrderController {
-    private OrderService orderService;
+    private final OrderService orderService;
 
     @Autowired
     public OrderController(OrderService orderService) {
@@ -35,7 +35,14 @@ public class OrderController {
 
     @DeleteMapping("/delete/{orderId}")
     public String deleteOrderById(@PathVariable UUID orderId){
-        orderService.deleteOrderById(orderId);
-        return "Order deleted";
+        try {
+            if(orderService.getOrderById(orderId) != null) {
+                orderService.deleteOrderById(orderId);
+                return "Order deleted successfully";
+            }
+        } catch (Exception e) {
+            return "Order not found";
+        }
+        return "Order not found";
     }
 }

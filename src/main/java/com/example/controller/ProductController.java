@@ -20,7 +20,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping("/product/{name}")
+    @PostMapping("/")
     public Product addProduct(@RequestBody Product product){
         return productService.addProduct(product);
     }
@@ -37,8 +37,8 @@ public class ProductController {
 
     @PutMapping("/update/{productId}")
     public Product updateProduct(@PathVariable UUID productId, @RequestBody Map<String,Object> body){
-        String newName = (String) body.get("name");
-        double newPrice = ((Number) body.get("price")).doubleValue();
+        String newName = (String) body.get("newName");
+        double newPrice = ((Number) body.get("newPrice")).doubleValue();
         return productService.updateProduct(productId, newName, newPrice);
     }
 
@@ -48,9 +48,12 @@ public class ProductController {
         return "Discount applied successfully";
     }
 
-    @DeleteMapping("/delete/{productId}")
-    public String deleteProductById(@PathVariable UUID productId){
-        productService.deleteProductById(productId);
+    @DeleteMapping("/delete/{id}")
+    public String deleteProductById(@PathVariable UUID id){
+        if (productService.getProductById(id) == null) {
+            return "Product not found";
+        }
+        productService.deleteProductById(id);
         return "Product deleted successfully";
     }
 
