@@ -5,6 +5,7 @@ import com.example.model.Order;
 import com.example.model.User;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -24,8 +25,9 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public User addUser(@RequestBody User user){
-        return userService.addUser(user);
+    public ResponseEntity<String> addUser(@RequestBody User user) {
+        userService.addUser(user);
+        return ResponseEntity.ok("User added successfully");
     }
 
     @GetMapping("/")
@@ -33,7 +35,7 @@ public class UserController {
         return userService.getUsers();
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/{userId}")
     public User getUserById(@PathVariable UUID userId){
         return userService.getUserById(userId);
     }

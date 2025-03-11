@@ -57,7 +57,6 @@ public class CartRepository extends MainRepository<Cart> {
                 return;
             }
         }
-        throw new RuntimeException("Cart not found");
     }
 
     public void deleteProductFromCart(UUID cartId, UUID productId) {
@@ -69,7 +68,6 @@ public class CartRepository extends MainRepository<Cart> {
                 return;
             }
         }
-        throw new RuntimeException("Cart not found");
     }
 
     public void deleteCartById(UUID cartId) {
@@ -78,8 +76,6 @@ public class CartRepository extends MainRepository<Cart> {
 
         if (removed) {
             saveAll(carts);
-        } else {
-            throw new RuntimeException("Cart not found");
         }
     }
 
