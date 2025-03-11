@@ -395,6 +395,7 @@
  	@Test
  	void testAddProductToCartEndPoint() throws Exception {
  		User testUser14=new User();
+		addUser(testUser14);
  		testUser14.setId(UUID.randomUUID());
  		testUser14.setName("Test User14");
 		

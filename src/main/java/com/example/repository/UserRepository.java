@@ -1,7 +1,8 @@
 package com.example.repository;
 
-import com.example.model.Order;
+import com.example.model.*;
 import com.example.model.Cart;
+import com.example.model.Order;
 import com.example.repository.CartRepository;
 import com.example.model.User;
 import org.springframework.http.HttpStatus;
@@ -47,11 +48,9 @@ public class UserRepository extends MainRepository<User> {
         user.setId(UUID.randomUUID());
         ArrayList<User> users = findAll();
         users.add(user);
-        Cart cart = new Cart();
-        cart.setId(UUID.randomUUID());
-        cart.setUserId(user.getId());
-        cart.setProducts(new ArrayList<>());
         saveAll(users);
+        Cart cart = cartRepository.addCart(new Cart(user.getId()));
+
 
         return user;
     }
